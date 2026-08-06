@@ -10,7 +10,7 @@ export function deleteFile(req, res) {
     const fileId = req.params?.fileId;
     if (!fileId) return res.status(400).json({
         success: false,
-        message: "fileId must be provided. It's used to locate the file's metadata you would like to set.",
+        message: "Missing fileId, please provide it. It's used to locate the file you wish to delete.",
         error: {
             code: "VALIDATION_ERROR",
             statusCode: 400,

@@ -4,6 +4,9 @@ import express from "express"
 // Express handlers
 import { uploadFile } from "./handlers/upload-file.js"; 
 import { updateFileMetadata } from "./handlers/update-file-metadata.js";
+import { downloadFile } from "./handlers/download-file.js";
+import { deleteFile } from "./handlers/delete-file.js";
+import { fetchFileMetadata } from "./handlers/fetch-file-metadata.js";
 
 // Import the cors module to define specifications
 // on which client can make a request to this server
@@ -14,8 +17,6 @@ import cors from "cors";
 // Import dotenv module, which makes it possible
 // to read the contents of a .env file
 import dotenv from "dotenv";
-import { downloadFile } from "./handlers/download-file.js";
-import { deleteFile } from "./handlers/delete-file.js";
 dotenv.config();
 export const metadatas = new Map();
 
@@ -36,7 +37,7 @@ app.use(cors({
     // POST - for uploading a file
     // DELETE - for deleting a file
     // PUT - updating a file's metadata
-    methods: ["GET", "POST", "DELETE"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
 }));
 app.use(express.json());
 // ------- Handlers ---------------------
@@ -52,6 +53,9 @@ app.get("/api/file/download/:fileId", downloadFile);
 
 // [Delete File] - DELETE /api/file/delete/:fileId
 app.delete("/api/file/:fileId", deleteFile)
+
+// [Fetch File Metadata] - GET /api/file/metadata/:fileId
+app.get("/api/file/metadata/:fileId", fetchFileMetadata);
 
 // Listen to the port
 // What this does under the hood is that, it tells the c++ library used to communicate
