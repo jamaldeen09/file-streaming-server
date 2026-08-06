@@ -18,14 +18,6 @@ export async function updateFileMetadata(req, res) {
         }
     })
 
-    // Confirm the fileId is actually a string
-    const fileIdType = typeof fileId;
-    if (fileIdType !== "string") return res.status(400).json({
-        success: false,
-        message: "Invalid fileId.",
-        error: { code: "VALIDATION_ERROR", statusCode: 400 }
-    });
-
     // Extract the metadata from the requests body and validate it
     const metadata = req.body?.metadata;
     if (!metadata) return res.status(400).json({

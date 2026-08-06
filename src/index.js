@@ -15,6 +15,7 @@ import cors from "cors";
 // to read the contents of a .env file
 import dotenv from "dotenv";
 import { downloadFile } from "./handlers/download-file.js";
+import { deleteFile } from "./handlers/delete-file.js";
 dotenv.config();
 export const metadatas = new Map();
 
@@ -49,6 +50,8 @@ app.put("/api/file/metadata/:fileId", updateFileMetadata);
 // [Download File] - GET /api/file/download/:fileId
 app.get("/api/file/download/:fileId", downloadFile);
 
+// [Delete File] - DELETE /api/file/delete/:fileId
+app.delete("/api/file/:fileId", deleteFile)
 
 // Listen to the port
 // What this does under the hood is that, it tells the c++ library used to communicate
