@@ -32,7 +32,6 @@ export function uploadFile(req, res) {
     // in chunks
     const stream = fs.createWriteStream(filePath, {
         flags: "a",
-        encoding: 'utf8'
     });
 
     // Listen for new chunks of data
