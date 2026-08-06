@@ -1,6 +1,10 @@
 // Import the express module
 import express from "express"
 
+// Express handlers
+import { uploadFile } from "./handlers/upload-file.js"; 
+import { updateFileMetadata } from "./handlers/update-file-metadata.js";
+
 // Import the cors module to define specifications
 // on which client can make a request to this server
 // and what HTTP methods they can use when requesting 
@@ -10,19 +14,14 @@ import cors from "cors";
 // Import dotenv module, which makes it possible
 // to read the contents of a .env file
 import dotenv from "dotenv";
-import { uploadFile } from "./handlers/upload-file.js"; 
 dotenv.config();
+export const metadatas = new Map();
 
 // Extract PORT from environment variables (defaults to 3000, if not defined)
 const port = parseInt(process.env.PORT ?? "3000");
 
 // Create a new express app
 const app = express();
-app.post("/test", (req) => {
-    req.on("data", (data) => {
-        console.log("Data chunk:", data)
-    })
-})
 
 // Apply cors to our express app as a global middleware
 // so it runs before the client's request touches any other endpoints
@@ -36,11 +35,15 @@ app.use(cors({
     // DELETE - for deleting a file
     methods: ["GET", "POST", "DELETE"],
 }));
-
+app.use(express.json());
 // ------- Handlers ---------------------
 
 // [File Uploads] - POST /api/upload
 app.post("/api/upload", uploadFile);
+
+// [Set File Metadata] - PUT /api/file/metadata/:fileId
+app.put("/api/file/metadata/:fileId", updateFileMetadata);
+
 
 // Listen to the port
 // What this does under the hood is that, it tells the c++ library used to communicate

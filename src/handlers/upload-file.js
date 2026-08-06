@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 // How this works under the hood:
 // Whatever client makes this request automatically has something we call
 // a TCP socket specifically for them. Well it could be called "socket", TCP
