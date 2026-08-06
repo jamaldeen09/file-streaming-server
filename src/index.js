@@ -14,6 +14,7 @@ import cors from "cors";
 // Import dotenv module, which makes it possible
 // to read the contents of a .env file
 import dotenv from "dotenv";
+import { downloadFile } from "./handlers/download-file.js";
 dotenv.config();
 export const metadatas = new Map();
 
@@ -30,19 +31,23 @@ app.use(cors({
     // "*": any client can make a request to this server
     origin: "*", 
 
-    // GET - for downloading a file
+    // GET - for downloading a file or fetching a file's metadata
     // POST - for uploading a file
     // DELETE - for deleting a file
+    // PUT - updating a file's metadata
     methods: ["GET", "POST", "DELETE"],
 }));
 app.use(express.json());
 // ------- Handlers ---------------------
 
 // [File Uploads] - POST /api/upload
-app.post("/api/upload", uploadFile);
+app.post("/api/file/upload", uploadFile);
 
-// [Set File Metadata] - PUT /api/file/metadata/:fileId
+// [Update File Metadata] - PUT /api/file/metadata/:fileId
 app.put("/api/file/metadata/:fileId", updateFileMetadata);
+
+// [Download File] - GET /api/file/download/:fileId
+app.get("/api/file/download/:fileId", downloadFile);
 
 
 // Listen to the port
@@ -50,5 +55,5 @@ app.put("/api/file/metadata/:fileId", updateFileMetadata);
 // with the OS called libuv. It tells libuv to bind this node process to the operating system
 // meaning any network packets the network card in the operating system receives, the operating system
 // basically notifies any ports binded to it. 
-app.listen(port, () => console.log(`Server is running on port: ${port}`))
+app.listen(port, () => console.log(`Server is running on port: ${port}`));
 
